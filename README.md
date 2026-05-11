@@ -79,9 +79,7 @@ El reporte se genera automáticamente en `reports/report.html` después de cada 
 | Login — cuenta bloqueada | PASS |
 | Login — credenciales inválidas | PASS |
 | Compra — flujo completo con dos productos | PASS |
-| Carrito vacío — intento de checkout | **FAIL** (intencional) |
-
-El escenario de carrito vacío **falla de forma intencional** para documentar un bug en saucedemo.com: la aplicación permite completar una compra con el carrito vacío y muestra la pantalla de confirmación, lo cual no debería ser posible.
+| Carrito vacío — intento de checkout | **FAIL** — la aplicación permite completar una compra con el carrito vacío y muestra la pantalla de confirmación de orden, cuando debería bloquear el flujo |
 
 ---
 
