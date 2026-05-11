@@ -8,6 +8,7 @@ Given('que el usuario ha iniciado sesión con credenciales válidas', async func
   const loginPage = new LoginPage(this.page);
   await loginPage.goto();
   await loginPage.login(USERS.standard.username, USERS.standard.password);
+  await this.page.waitForURL('**/inventory.html');
 });
 
 When('el usuario navega al carrito', async function (this: CustomWorld) {

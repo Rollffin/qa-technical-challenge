@@ -3,6 +3,8 @@ import { expect } from '@playwright/test';
 import { CustomWorld } from '../src/support/world';
 import { InventoryPage } from '../src/pages/InventoryPage';
 import { CartPage } from '../src/pages/CartPage';
+
+const EXPECTED_CART_ITEMS = 2;
 import { CheckoutInfoPage } from '../src/pages/CheckoutInfoPage';
 import { CheckoutOverviewPage } from '../src/pages/CheckoutOverviewPage';
 import { CheckoutCompletePage } from '../src/pages/CheckoutCompletePage';
@@ -12,6 +14,10 @@ When('el usuario agrega el Bolt T-Shirt y el Red T-Shirt al carrito', async func
   const inventoryPage = new InventoryPage(this.page);
   await inventoryPage.addBoltTShirt();
   await inventoryPage.addRedTShirt();
+
+  const cartPage = new CartPage(this.page);
+  const count = await cartPage.getBadgeCount();
+  expect(count, `Se esperaban ${EXPECTED_CART_ITEMS} productos en el carrito pero se encontraron ${count}`).toBe(EXPECTED_CART_ITEMS);
 });
 
 When('el usuario procede al checkout', async function (this: CustomWorld) {
