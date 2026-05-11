@@ -1,14 +1,15 @@
-Feature: Successful Purchase
-  As a logged-in user
-  I want to complete a purchase
-  So that I can buy products from the store
+# language: es
+Característica: Compra exitosa
+  Como usuario autenticado
+  Quiero completar una compra
+  Para adquirir productos de la tienda
 
-  Scenario: Complete purchase of two products with order total validation
-    Given the user is logged in with valid credentials
-    When the user adds the Bolt T-Shirt and the Red T-Shirt to the cart
-    And the user navigates to the cart
-    And the user proceeds to checkout
-    And the user fills in the shipping information
-    And the order total matches item total plus tax
-    And the user confirms the order
-    Then the order confirmation message "Thank you for your order!" is displayed
+  Escenario: Compra completa de dos productos con validación del total del pedido
+    Dado que el usuario ha iniciado sesión con credenciales válidas
+    Cuando el usuario agrega el Bolt T-Shirt y el Red T-Shirt al carrito
+    Y el usuario navega al carrito
+    Y el usuario procede al checkout
+    Y el usuario completa los datos de envío
+    Y el total del pedido coincide con el subtotal más el impuesto
+    Y el usuario confirma el pedido
+    Entonces se muestra el mensaje de confirmación "Thank you for your order!"

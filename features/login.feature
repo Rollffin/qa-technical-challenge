@@ -1,21 +1,22 @@
-Feature: User Authentication
-  As a user of Saucedemo
-  I want to be able to log in to the application
-  So that I can access the product catalog
+# language: es
+Característica: Autenticación de usuario
+  Como usuario de Saucedemo
+  Quiero poder iniciar sesión en la aplicación
+  Para acceder al catálogo de productos
 
-  Scenario: Successful login with valid credentials
-    Given the user is on the login page
-    When the user logs in with valid credentials
-    Then the user is redirected to the products page
+  Escenario: Inicio de sesión exitoso con credenciales válidas
+    Dado que el usuario está en la página de login
+    Cuando el usuario inicia sesión con credenciales válidas
+    Entonces el usuario es redirigido a la página de productos
 
-  Scenario: Login attempt with a locked account
-    Given the user is on the login page
-    When the user logs in with locked account credentials
-    Then an error message containing "Sorry, this user has been locked out" is displayed
-    And the user remains on the login page
+  Escenario: Intento de login con cuenta bloqueada
+    Dado que el usuario está en la página de login
+    Cuando el usuario inicia sesión con una cuenta bloqueada
+    Entonces se muestra un mensaje de error que contiene "Sorry, this user has been locked out"
+    Y el usuario permanece en la página de login
 
-  Scenario: Login attempt with invalid credentials
-    Given the user is on the login page
-    When the user logs in with invalid credentials
-    Then an error message containing "Username and password do not match" is displayed
-    And the user remains on the login page
+  Escenario: Intento de login con credenciales inválidas
+    Dado que el usuario está en la página de login
+    Cuando el usuario inicia sesión con credenciales inválidas
+    Entonces se muestra un mensaje de error que contiene "Username and password do not match"
+    Y el usuario permanece en la página de login
