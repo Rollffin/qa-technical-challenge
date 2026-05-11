@@ -1,44 +1,44 @@
-# QA Technical Challenge — E2E Automation Suite
+# QA Technical Challenge — Suite de Automatización E2E
 
-Automated end-to-end test suite for [saucedemo.com](https://www.saucedemo.com) built with **Playwright** and **Cucumber (Gherkin)** using the **Page Object Model** pattern.
+Suite de pruebas end-to-end automatizadas para [saucedemo.com](https://www.saucedemo.com) construida con **Playwright** y **Cucumber (Gherkin)** usando el patrón **Page Object Model**.
 
 ---
 
-## Prerequisites
+## Requisitos previos
 
 - Node.js >= 18
 - npm >= 9
 
 ---
 
-## Setup
+## Instalación
 
-### 1. Clone the repository
+### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/Rollffin/qa-technical-challenge.git
 cd qa-technical-challenge
 ```
 
-### 2. Install dependencies
+### 2. Instalar dependencias
 
 ```bash
 npm install
 ```
 
-### 3. Download the browser
+### 3. Descargar el navegador
 
 ```bash
 npx playwright install chromium
 ```
 
-### 4. Configure environment variables
+### 4. Configurar las variables de entorno
 
 ```bash
 cp .env.example .env
 ```
 
-Open `.env` and fill in the credentials:
+Abrí el archivo `.env` y completá las credenciales:
 
 ```
 STANDARD_USER=standard_user
@@ -47,63 +47,63 @@ LOCKED_USER=locked_out_user
 LOCKED_PASSWORD=secret_sauce
 ```
 
-> The `.env` file is gitignored and will never be committed.
+> El archivo `.env` está en el `.gitignore` y nunca será commiteado al repositorio.
 
 ---
 
-## Running the suite
+## Ejecución de la suite
 
-**Headless (default):**
+**Modo headless (por defecto):**
 
 ```bash
 npm test
 ```
 
-**Headed (browser visible — useful for debugging):**
+**Modo headed (navegador visible — útil para debugging):**
 
 ```bash
 npm run test:headed
 ```
 
-**With HTML report:**
+**Reporte HTML:**
 
-The HTML report is generated automatically at `reports/report.html` after every run. Open it in any browser to see a detailed breakdown of all scenarios and steps.
+El reporte se genera automáticamente en `reports/report.html` después de cada ejecución. Abrilo en cualquier navegador para ver el detalle completo de escenarios y steps.
 
 ---
 
-## Expected results
+## Resultados esperados
 
-| Scenario | Expected outcome |
+| Escenario | Resultado esperado |
 |---|---|
-| Login — valid credentials | PASS |
-| Login — locked account | PASS |
-| Login — invalid credentials | PASS |
-| Purchase — complete flow with two products | PASS |
-| Empty cart — checkout attempt | **FAIL** (intentional) |
+| Login — credenciales válidas | PASS |
+| Login — cuenta bloqueada | PASS |
+| Login — credenciales inválidas | PASS |
+| Compra — flujo completo con dos productos | PASS |
+| Carrito vacío — intento de checkout | **FAIL** (intencional) |
 
-The empty cart scenario **intentionally fails** to document a bug in saucedemo.com: the application allows completing a purchase with an empty cart and shows the order confirmation page, which should not be possible.
+El escenario de carrito vacío **falla de forma intencional** para documentar un bug en saucedemo.com: la aplicación permite completar una compra con el carrito vacío y muestra la pantalla de confirmación, lo cual no debería ser posible.
 
 ---
 
-## Suite architecture
+## Arquitectura de la suite
 
 ```
 qa-technical-challenge/
 │
-├── features/                    # Gherkin scenarios (WHAT to test)
+├── features/                    # Escenarios Gherkin (QUÉ se prueba)
 │   ├── login.feature
 │   ├── purchase.feature
 │   └── empty-cart.feature
 │
-├── step-definitions/            # Step implementations (bridge between Gherkin and POM)
-│   ├── shared.steps.ts          # Steps reused across multiple features
+├── step-definitions/            # Implementación de los steps (puente entre Gherkin y POM)
+│   ├── shared.steps.ts          # Steps reutilizados por múltiples features
 │   ├── login.steps.ts
 │   ├── purchase.steps.ts
 │   └── empty-cart.steps.ts
 │
 ├── src/
-│   ├── pages/                   # Page Object Model (HOW to interact with the UI)
-│   │   ├── BasePage.ts          # Base class with shared navigation helpers
+│   ├── pages/                   # Page Object Model (CÓMO interactuar con la UI)
+│   │   ├── BasePage.ts          # Clase base con helpers de navegación compartidos
 │   │   ├── LoginPage.ts
 │   │   ├── InventoryPage.ts
 │   │   ├── CartPage.ts
@@ -112,113 +112,113 @@ qa-technical-challenge/
 │   │   └── CheckoutCompletePage.ts
 │   │
 │   ├── support/
-│   │   ├── world.ts             # CustomWorld — holds browser, context, and page per scenario
-│   │   └── hooks.ts             # Before/After hooks — browser lifecycle management
+│   │   ├── world.ts             # CustomWorld — contiene browser, context y page por escenario
+│   │   └── hooks.ts             # Hooks Before/After — gestión del ciclo de vida del navegador
 │   │
 │   └── fixtures/
-│       └── testData.ts          # Test data constants (users, checkout data)
+│       └── testData.ts          # Constantes de datos de prueba (usuarios, datos de checkout)
 │
-├── reports/                     # HTML report output (gitignored)
-├── cucumber.js                  # Cucumber runner configuration
+├── reports/                     # Reporte HTML generado (gitignored)
+├── cucumber.js                  # Configuración del runner de Cucumber
 ├── tsconfig.json
-└── .env.example                 # Environment variable template
+└── .env.example                 # Plantilla de variables de entorno
 ```
 
-### Layer responsibilities
+### Responsabilidades de cada capa
 
-| Layer | Responsibility |
+| Capa | Responsabilidad |
 |---|---|
-| **features/** | Describe behavior in plain language (Gherkin). No code logic. |
-| **step-definitions/** | Connect Gherkin steps to page object actions. Contain assertions (`expect`). No DOM selectors. |
-| **src/pages/** | Encapsulate all DOM selectors and UI interactions. No assertions. |
-| **src/support/** | Manage browser lifecycle and shared context via `CustomWorld`. |
-| **src/fixtures/** | Provide test data from environment variables and constants. |
+| **features/** | Describir el comportamiento en lenguaje natural (Gherkin). Sin lógica de código. |
+| **step-definitions/** | Conectar los steps de Gherkin con las acciones del POM. Contienen las aserciones (`expect`). Sin selectores del DOM. |
+| **src/pages/** | Encapsular todos los selectores del DOM y las interacciones con la UI. Sin aserciones. |
+| **src/support/** | Gestionar el ciclo de vida del navegador y el contexto compartido mediante `CustomWorld`. |
+| **src/fixtures/** | Proveer datos de prueba desde variables de entorno y constantes. |
 
 ---
 
-## Adding a new scenario
+## Agregar un nuevo escenario
 
-Follow this order strictly — each layer depends on the one above it.
+Seguí este orden estrictamente — cada capa depende de la anterior.
 
-### Step 1 — Create or extend the Page Object
+### Paso 1 — Crear o extender el Page Object
 
-If the scenario interacts with a page that already has a Page Object, add the new method there. If it's a new page, create a new class in `src/pages/`.
+Si el escenario interactúa con una página que ya tiene un Page Object, agregá el nuevo método ahí. Si es una página nueva, creá una nueva clase en `src/pages/`.
 
 ```typescript
-// src/pages/ExamplePage.ts
+// src/pages/EjemploPage.ts
 import { Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-export class ExamplePage extends BasePage {
-  private readonly submitButton = this.page.locator('#submit');
+export class EjemploPage extends BasePage {
+  private readonly botonEnviar = this.page.locator('#submit');
 
   constructor(page: Page) {
     super(page);
   }
 
-  async clickSubmit(): Promise<void> {
-    await this.submitButton.click();
+  async clickEnviar(): Promise<void> {
+    await this.botonEnviar.click();
   }
 
-  async getConfirmationText(): Promise<string> {
+  async getTextoConfirmacion(): Promise<string> {
     return this.page.locator('.confirmation').innerText();
   }
 }
 ```
 
-**Rules for Page Objects:**
-- Locators are always `private readonly`
-- Methods are `async` and return `Promise<void>` or a value
-- No assertions inside page objects — only actions and getters
+**Reglas para los Page Objects:**
+- Los locators son siempre `private readonly`
+- Los métodos son `async` y retornan `Promise<void>` o un valor
+- Sin aserciones dentro del Page Object — solo acciones y getters
 
-### Step 2 — Write the Gherkin scenario
+### Paso 2 — Escribir el escenario Gherkin
 
-Add the scenario to the relevant `.feature` file, or create a new one in `features/`.
+Agregá el escenario al `.feature` correspondiente, o creá uno nuevo en `features/`.
 
 ```gherkin
-# features/example.feature
-Feature: Example Feature
+# features/ejemplo.feature
+Feature: Ejemplo de funcionalidad
 
-  Scenario: User submits the form successfully
-    Given the user is logged in with valid credentials
-    When the user submits the example form
-    Then the confirmation message "Success!" is displayed
+  Scenario: El usuario envía el formulario exitosamente
+    Given que el usuario ha iniciado sesión con credenciales válidas
+    When el usuario envía el formulario de ejemplo
+    Then se muestra el mensaje de confirmación "¡Éxito!"
 ```
 
-**Rules for feature files:**
-- Use `Given` for preconditions, `When` for actions, `Then` for assertions
-- If a step already exists in `step-definitions/shared.steps.ts`, reuse it exactly as written
-- Keep step text descriptive and business-focused — avoid technical details
+**Reglas para los feature files:**
+- Usá `Given` para precondiciones, `When` para acciones, `Then` para aserciones
+- Si un step ya existe en `step-definitions/shared.steps.ts`, reutilizalo con el texto exacto
+- El texto de los steps debe ser descriptivo y orientado al negocio — sin detalles técnicos
 
-### Step 3 — Implement the step definitions
+### Paso 3 — Implementar los step definitions
 
-Create a new file in `step-definitions/` or add to an existing one if the domain matches. Import the relevant Page Object and `CustomWorld`.
+Creá un nuevo archivo en `step-definitions/` o agregá al existente si el dominio coincide. Importá el Page Object correspondiente y `CustomWorld`.
 
 ```typescript
-// step-definitions/example.steps.ts
+// step-definitions/ejemplo.steps.ts
 import { When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../src/support/world';
-import { ExamplePage } from '../src/pages/ExamplePage';
+import { EjemploPage } from '../src/pages/EjemploPage';
 
-When('the user submits the example form', async function (this: CustomWorld) {
-  const examplePage = new ExamplePage(this.page);
-  await examplePage.clickSubmit();
+When('el usuario envía el formulario de ejemplo', async function (this: CustomWorld) {
+  const ejemploPage = new EjemploPage(this.page);
+  await ejemploPage.clickEnviar();
 });
 
-Then('the confirmation message {string} is displayed', async function (this: CustomWorld, expected: string) {
-  const examplePage = new ExamplePage(this.page);
-  const text = await examplePage.getConfirmationText();
-  expect(text).toBe(expected);
+Then('se muestra el mensaje de confirmación {string}', async function (this: CustomWorld, esperado: string) {
+  const ejemploPage = new EjemploPage(this.page);
+  const texto = await ejemploPage.getTextoConfirmacion();
+  expect(texto).toBe(esperado);
 });
 ```
 
-**Rules for step definitions:**
-- Never use `page.locator()` directly — always go through the Page Object
-- Assertions (`expect`) belong here, not in the Page Object
-- If a step will be used by more than one feature file, add it to `shared.steps.ts`
+**Reglas para los step definitions:**
+- Nunca usar `page.locator()` directamente — siempre a través del Page Object
+- Las aserciones (`expect`) van aquí, no en el Page Object
+- Si un step será utilizado por más de un feature, agregarlo a `shared.steps.ts`
 
-### Verify
+### Verificar
 
 ```bash
 npm test
